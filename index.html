@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tes[x]tEditor</title>
+    <title>Tex[s]tEditor</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
   </head>
@@ -15,15 +15,21 @@
 
 
 <div id="editor">
-  <p>Hello World!</p>
-  <p>Some initial <strong>bold</strong> text</p>
-  <p><br></p>
+  <p>Tex[s]t editor</p>
 </div>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 <script>
+	
+  var toolbarOptions = [
+	  ['bold', 'italic', 'underline', 'strike']
+	  ];
+	
   var quill = new Quill('#editor', {
+	  modules: {
+		  toolbar: toolbarOptions
+	  },
     theme: 'snow'
   });
 </script>
