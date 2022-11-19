@@ -10,12 +10,12 @@
   </head>
   <body>
     <main>
-	    <h1>TEX[S]T EDITOR</h1>  
+	    <h1>TEX[S]T EDITOR v2</h1>  
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 
 <div id="editor">
-  <p>Tex[s]t editor Hprl v1</p>
+  <p>Tex[s]t editor Hprl</p>
 </div>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
@@ -40,8 +40,7 @@
 	<script src="index.js"></script>
 
     <script>
-        
-        document.getElementById("text").innerHTML = quill.getContents();
+        document.getElementById("text").innerHTML = JSON.stringify(quill.getContents());
     </script>
 
   </body>
