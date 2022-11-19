@@ -10,12 +10,12 @@
   </head>
   <body>
     <main>
-	    <h1>TEX[S]T EDITOR v0</h1>  
+	    <h1>TEX[S]T EDITOR</h1>  
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 
 <div id="editor">
-  <p>Tex[s]t editor Hprl</p>
+  <p>Tex[s]t editor Hprl v1</p>
 </div>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
@@ -34,9 +34,17 @@
     theme: 'snow'
   });
 </script>
-<textarea type="text" name="note" class = "textarea" cols="50" rows="10">{quill.getContents()}</textarea>
+<textarea id ="text" type="text" class = "textarea" ></textarea>
 
     </main>
 	<script src="index.js"></script>
+
+    <script>
+        
+        document.getElementById("text").innerHTML = quill.getContents();
+    </script>
+
   </body>
 </html>
+
+
