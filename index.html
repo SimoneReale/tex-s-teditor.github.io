@@ -14,9 +14,7 @@
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 
-<div id="editor">
-  <p>Tex[s]t editor Hprl</p>
-</div>
+<div id="editor"></div>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
@@ -24,7 +22,8 @@
 	
   var toolbarOptions = [
 	  ['bold', 'italic', 'underline', 'strike'],
-	  [{'color' : []}, {'background' : []}]
+	  [{'color' : []}, {'background' : []}],
+    [{'align' : ["right", "center"]}]
 	  ];
 	
   var quill = new Quill('#editor', {
@@ -34,16 +33,36 @@
     theme: 'snow'
   });
 </script>
-<textarea id ="text" type="text" class = "textarea" ></textarea>
+<textarea id ="text" type="text" name="text" class = "textarea" ></textarea>
 
     </main>
 	<script src="index.js"></script>
 
     <script>
-        document.getElementById("text").innerHTML = JSON.stringify(quill.getContents());
+      function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+        }
+
+      quill.on('text-change', function() {
+      document.getElementById("text").innerHTML = JSON.stringify(quill.getContents());
+    });
     </script>
+
+
+<form onsubmit="download(this['name'].value, this['text'].value)">
+  <input type="text" name="name" value="test.txt">
+  <input type="submit" value="download">
+</form>
 
   </body>
 </html>
-
 
