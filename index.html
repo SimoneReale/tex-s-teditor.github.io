@@ -55,14 +55,20 @@
       quill.on('text-change', function() {
       document.getElementById("text").innerHTML = JSON.stringify(quill.getContents());
     });
+
+
+    document.getElementById("dwn-btn").addEventListener("click", function(){
+    // Generate download of hello.txt file with some content
+    var text = JSON.stringify(quill.getContents());
+    var filename = "hello.txt";
+    
+    download(filename, text);
+    }, false);
+
     </script>
 
 
-<form onsubmit="download(this['name'].value, this['text'].value)">
-  <input type="text" name="name" value="test.txt">
-  <input type="submit" value="download">
-</form>
+<input type="button" id="dwn-btn" value="Download dinamically generated text file"/>
 
   </body>
 </html>
-
