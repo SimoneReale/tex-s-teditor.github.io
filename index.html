@@ -34,7 +34,7 @@
     theme: 'snow'
   });
 </script>
-<textarea readonly id ="text" type="text" name="text" class = "textarea" ></textarea>
+
 
 <input type="button" id="dwn-btn" value="Download text file"/>
 <input type="text" id="filename"  value="text">
@@ -43,6 +43,7 @@
 	<script src="index.js"></script>
 
     <script>
+
       function download(filename, text) {
         var element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -56,14 +57,26 @@
         document.body.removeChild(element);
         }
 
-      quill.on('text-change', function() {
-      document.getElementById("text").innerHTML = JSON.stringify(quill.getContents());
-    });
-
-
     document.getElementById("dwn-btn").addEventListener("click", function(){
-    // Generate download of hello.txt file with some content
-    var text = JSON.stringify(quill.getContents());
+    
+
+    var delta = quill.getContents();
+    var lines_obj = new Object();
+    lines_obj.lines = []
+
+    delta.eachLine((line, attributes, i) => {
+
+      var obj = new Object();
+      obj.content = line;
+      obj.line_attributes  = attributes;
+      lines_obj.lines.push(obj)
+      
+      //console.log(JSON.stringify(i))
+      // Can return false to exit loop early
+      });
+
+    
+    var text = JSON.stringify(lines_obj);
     var filename = document.getElementById("filename").value;
     
     download(filename, text);
