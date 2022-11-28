@@ -62,6 +62,33 @@
   
 }
 
+.editor-elem_label {
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 4rem;
+  padding: 0 1.6rem;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all .5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+
+
 .editor-elem:hover {
   box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
   transition-duration: .1s;
@@ -96,11 +123,12 @@
 
 .app {
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
+  
 }
 
 .h1 {
@@ -133,11 +161,50 @@
 
 
 <script>
+
+function vh(percent) {
+  var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  return Math.ceil((percent * h) / 100);
+}
+
+function vw(percent) {
+  var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  return Math.ceil((percent * w) / 100);
+}
+
+function vmin(percent) {
+  return Math.min(vh(percent), vw(percent));
+}
+
+function vmax(percent) {
+  return Math.max(vh(percent), vw(percent));
+}
+
+  function resetSize(){
+  
+    document.getElementById("editor").style.width = vw(90).toString().concat('px');
+    document.getElementById("editor").style.height = vh(80).toString().concat('px');
+  
+  }
+  
   function makeDisappear() { 
     document.getElementById("butt_disappear").style.display="none";
     document.getElementById("hide").style.display="none"; 
-    document.getElementById("app").style.display="block"; 
+    document.getElementById("app").style.display="block";
+    resetSize(); 
   }
+
+  function changeSize(){
+    
+    var width = document.getElementById("width_in").value.toString().concat('px');
+    var height = document.getElementById("height_in").value.toString().concat('px');
+
+    document.getElementById("editor").style.width = width;
+    document.getElementById("editor").style.height = height;
+
+  }
+
+
 </script>
 
 
@@ -152,10 +219,47 @@
 
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
+<style>
+
+
+
+  .toolbar_mia {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background-color: transparent;
+  font-family: "Courier Prime", monospace;
+}
+
+.elem_toolbar {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+
+
+
+</style>
+
+
 <div id="app" style ="display:none">
-  <div id="editor"></div>
-  <input type="button" class="editor-elem" id="dwn-btn" value="Download text file"/>
-  <input type="text" class="editor-elem" id="filename"  value="text">
+  <div id="editor" class = "editor"></div>
+
+  <div class = "toolbar_mia">
+    <input type="button" class="editor-elem" id="dwn-btn" style = "height: 10vh;" value="Download text file"/>
+    <input type="text" style="font-size:15px;" id="filename" style = "height: 10vh;"  value="your_filename.txt">
+    
+    <label class="editor-elem_label" for="width_in:">Width in pixel:</label>
+    <input type="number" style="font-size:15px;" id="width_in" name="width_in" min="0">
+    <label class="editor-elem_label" for="height_in:">Height in pixel:</label>
+    <input type="number"  style="font-size:15px;" id="height_in" name="height_in" min="0">
+    <input type="button" class="editor-elem" id="size_btn" style = "height: 10vh;" onclick="changeSize()" role="button" value= "Change window size"/>
+    <input type="button" class="editor-elem" id="size_btn" style = "height: 10vh;" onclick="resetSize()" role="button" value= "Reset window size"/>
 </div>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
@@ -166,24 +270,32 @@
 
 <style>
 
+.ql-editor ul li::before {
+  content: '- ';
+}
+
 
 .ql-container {
+
     font-size: 18px;
     height: 80vh;
-    width: 100%;
+    width: 90vw;
     margin: 0px;
     background-color: white;
     
   }
+
+ 
 
   .ql-toolbar {
 
-    height: 100%;
-    width: 100%;
+    height: 8vh;
+    width: 90vw;
     margin: 0px;
     background-color: white;
     
   }
+
 
 
   .ql-snow .ql-picker.ql-size .ql-picker-label::before,
@@ -228,6 +340,29 @@
     modules: {
 		  toolbar: toolbarOptions,
 	  },
+    formats : [
+            //"background",
+            "bold", 
+            "color", 
+            //"font", 
+            //"code", 
+            "italic", 
+            //"link", 
+            "size", 
+            //"strike", 
+            //"script",
+            //"underline", 
+            //"blockquote", 
+            //"header",
+            //"indent", 
+            "list", 
+            "align", 
+            //"direction", 
+            //"code-block", 
+            //"formula", 
+            //"image",
+            //"video"
+        ],
     theme: 'snow'
   });
 </script>
@@ -254,13 +389,14 @@
       document.getElementById("dwn-btn").addEventListener("click", function(){
     
 
-        var delta = quill.getContents();
+    var delta = quill.getContents();
     var lines_obj = new Object();
     lines_obj.lines = []
 
     delta.eachLine((line, attributes, i) => {
 
       var obj = new Object();
+      obj.dimensions = {"width" : document.getElementById("editor").style.width, "height" : document.getElementById("editor").style.height}
       obj.content = line;
       obj.line_attributes  = attributes;
       lines_obj.lines.push(obj)
