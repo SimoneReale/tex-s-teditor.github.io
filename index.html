@@ -242,10 +242,6 @@ function vmax(percent) {
   text-decoration: none;
 }
 
-
-
-
-
 </style>
 
 
@@ -328,7 +324,7 @@ function vmax(percent) {
   Quill.register(Size, true);
 
   var toolbarOptions = [
-    ['bold', 'italic', {'color' : []}],
+    ['bold', 'italic', {'color' : []}, 'strike', 'underline'],
     [{'size': fontSizeArr}],
     [{'align' : ['', 'right', 'center']}],
     [{'list' : 'ordered'}, {'list' : 'bullet'}]
@@ -349,9 +345,9 @@ function vmax(percent) {
             "italic", 
             //"link", 
             "size", 
-            //"strike", 
+            "strike", 
             //"script",
-            //"underline", 
+            "underline", 
             //"blockquote", 
             //"header",
             //"indent", 
@@ -392,11 +388,11 @@ function vmax(percent) {
     var delta = quill.getContents();
     var lines_obj = new Object();
     lines_obj.lines = []
+    lines_obj.dimensions = {"width" : document.getElementById("editor").style.width, "height" : document.getElementById("editor").style.height}
 
     delta.eachLine((line, attributes, i) => {
 
       var obj = new Object();
-      obj.dimensions = {"width" : document.getElementById("editor").style.width, "height" : document.getElementById("editor").style.height}
       obj.content = line;
       obj.line_attributes  = attributes;
       lines_obj.lines.push(obj)
