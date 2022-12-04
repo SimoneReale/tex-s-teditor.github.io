@@ -392,10 +392,13 @@ function vmax(percent) {
 
     delta.eachLine((line, attributes, i) => {
 
-      var obj = new Object();
-      obj.content = line;
-      obj.line_attributes  = attributes;
-      lines_obj.lines.push(obj)
+      if(line.ops.length != 0)
+      {
+        var obj = new Object();
+        obj.content = line;
+        obj.line_attributes  = attributes;
+        lines_obj.lines.push(obj);
+    }
       
       });
 
